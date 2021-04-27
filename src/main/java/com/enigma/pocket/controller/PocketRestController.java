@@ -23,7 +23,7 @@ public class PocketRestController {
         return pocketService.createNewPocket(pocket);
     }
 
-    @GetMapping("/customer/{id}/pocket")
+    @GetMapping("/customer/{id}/pockets")
     public List<Pocket> findCustomerPocket(@PathVariable(name = "id") String customerId) {
         return pocketService.findAllByCustomer(customerId);
     }
