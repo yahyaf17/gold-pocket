@@ -34,6 +34,12 @@ public class PocketServiceImpl implements PocketService{
     }
 
     @Override
+    public void updatePocket(Pocket pocket) {
+        validatePocket(pocket.getId());
+        pocketRepository.save(pocket);
+    }
+
+    @Override
     public void topUp(String id, Double qty) {
         validatePocket(id);
         Pocket pocket = findPocketById(id);

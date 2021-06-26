@@ -28,4 +28,9 @@ public class PocketRestController {
         return pocketService.findAllByCustomer(customerId);
     }
 
+    @PutMapping("/pocket")
+    public void updatePocketName(@RequestBody Pocket pocket) {
+        pocketService.updatePocket(pocket);
+    }
+
 }
