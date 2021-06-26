@@ -5,9 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "m_customers")
@@ -29,6 +27,7 @@ public class Customer {
     private String email;
     private Date createdAt;
     private Date updatedAt;
+    private Boolean loggedIn;
 
     @OneToMany(mappedBy = "customer")
 //    @JsonIgnore
@@ -136,6 +135,13 @@ public class Customer {
 
     public void setPocketList(List<Pocket> pocketList) {
         this.pocketList = pocketList;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     @Override
