@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping(path = "/api")
 @RestController
 public class PurchaseController {
 
@@ -33,7 +34,15 @@ public class PurchaseController {
         Pageable  pageable = PageRequest.of(page, size, Sort.by(direction,sortBy));
         Page<Purchase> productPage = purchaseService.findAllPurchase(pageable);
         return new PageWrapper<Purchase>(productPage);
+    }
 
+    @GetMapping("/purchase/{id}/history")
+    public List<Purchase> getPurchaseByCustomer(@PathVariable(name = "id") String id,
+                                                       @RequestParam (name = "page", defaultValue = "0") Integer page,
+                                                       @RequestParam (name = "size", defaultValue = "5") Integer size,
+                                                       @RequestParam (name = "sort", defaultValue = "purchaseDate") String sortBy,
+                                                       @RequestParam (name = "direction", defaultValue = "ASC") Sort.Direction direction) {
+        return purchaseService.findAllPurchaseByCustomerId(id);
     }
 
 

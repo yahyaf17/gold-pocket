@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService{
@@ -52,6 +53,12 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Override
     public Page<Purchase> findAllPurchase(Pageable pageable) {
         return purchaseRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Purchase> findAllPurchaseByCustomerId(String customerId) {
+        customerService.validateCustomer(customerId);
+        return purchaseRepository.findByCustomerId(customerId);
     }
 
     private void buyProduct(Purchase purchase, PurchaseDetail purchaseDetail) {
