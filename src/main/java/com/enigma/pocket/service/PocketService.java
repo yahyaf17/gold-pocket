@@ -13,5 +13,6 @@ public interface PocketService {
     void topUp(String id, Double qty);
     void sellOff(String id, Double qty);
     List<Pocket> findAllByCustomer(String customerId);
+    void deleteById(String id);
 
 }

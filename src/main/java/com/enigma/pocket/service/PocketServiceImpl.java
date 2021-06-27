@@ -62,6 +62,12 @@ public class PocketServiceImpl implements PocketService{
         return customer.getPocketList();
     }
 
+    @Override
+    public void deleteById(String id) {
+        validatePocket(id);
+        pocketRepository.deleteById(id);
+    }
+
     private void validatePocket(String id) {
         if(!(pocketRepository.findById(id).isPresent())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(notFoundMessage, id));

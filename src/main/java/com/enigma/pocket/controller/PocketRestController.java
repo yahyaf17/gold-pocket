@@ -34,4 +34,9 @@ public class PocketRestController {
         pocketService.updatePocket(pocket);
     }
 
+    @DeleteMapping("/pocket/{id}")
+    public void deletePocket(@PathVariable(name = "id") String id) {
+        pocketService.deleteById(id);
+    }
+
 }

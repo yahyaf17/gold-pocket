@@ -58,7 +58,12 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Override
     public List<Purchase> findAllPurchaseByCustomerId(String customerId) {
         customerService.validateCustomer(customerId);
-        return purchaseRepository.findByCustomerId(customerId);
+        if (!purchaseRepository.findByCustomerId(customerId).isEmpty()) {
+            return purchaseRepository.findByCustomerId(customerId);
+        } else  {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No Purchase History");
+        }
+//        return purchaseRepository.findByCustomerId(customerId);
     }
 
     private void buyProduct(Purchase purchase, PurchaseDetail purchaseDetail) {
