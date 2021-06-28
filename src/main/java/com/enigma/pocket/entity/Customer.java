@@ -137,10 +137,11 @@ public class Customer {
         this.pocketList = pocketList;
     }
 
-    public boolean isLoggedIn() {
+    public Boolean getLoggedIn() {
         return loggedIn;
     }
-    public void setLoggedIn(boolean loggedIn) {
+
+    public void setLoggedIn(Boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
 

@@ -32,6 +32,7 @@ public class PocketServiceImpl implements PocketService{
     @Override
     public Pocket createNewPocket(Pocket pocket) {
         pocket.setPocketQty(0.0);
+        pocket.setTotalAmount(new BigDecimal(0));
         return pocketRepository.save(pocket);
     }
 
