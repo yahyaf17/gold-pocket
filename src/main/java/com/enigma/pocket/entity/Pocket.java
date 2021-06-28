@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "m_pockets")
@@ -16,6 +17,7 @@ public class Pocket {
     private String id;
     private String pocketName;
     private Double pocketQty;
+    private BigDecimal totalAmount;
 
     @ManyToOne
     @JsonIgnoreProperties({"pocketList"})
@@ -64,5 +66,13 @@ public class Pocket {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

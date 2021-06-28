@@ -2,12 +2,14 @@ package com.enigma.pocket.service;
 
 import com.enigma.pocket.entity.Customer;
 import com.enigma.pocket.entity.Pocket;
+import com.enigma.pocket.entity.PurchaseDetail;
 import com.enigma.pocket.repository.PocketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -40,18 +42,22 @@ public class PocketServiceImpl implements PocketService{
     }
 
     @Override
-    public void topUp(String id, Double qty) {
+    public void topUp(String id, PurchaseDetail purchaseDetail) {
         validatePocket(id);
         Pocket pocket = findPocketById(id);
-        pocket.setPocketQty(pocket.getPocketQty() + qty);
+        pocket.setPocketQty(pocket.getPocketQty() + purchaseDetail.getQuantityInGram());
+        BigDecimal buyPrice = purchaseDetail.getProduct().getProductPriceSell().multiply(new BigDecimal(purchaseDetail.getQuantityInGram()));
+        pocket.setTotalAmount(pocket.getTotalAmount().add(buyPrice));
         pocketRepository.save(pocket);
     }
 
     @Override
-    public void sellOff(String id, Double qty) {
+    public void sellOff(String id, PurchaseDetail purchaseDetail) {
         validatePocket(id);
         Pocket pocket = findPocketById(id);
-        pocket.setPocketQty(pocket.getPocketQty() - qty);
+        BigDecimal sellPrice = purchaseDetail.getProduct().getProductPriceBuy().multiply(new BigDecimal(purchaseDetail.getQuantityInGram()));
+        pocket.setPocketQty(pocket.getPocketQty() - purchaseDetail.getQuantityInGram());
+        pocket.setTotalAmount(pocket.getTotalAmount().subtract(sellPrice));
         pocketRepository.save(pocket);
     }
 

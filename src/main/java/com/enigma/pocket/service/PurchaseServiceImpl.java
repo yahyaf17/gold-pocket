@@ -68,9 +68,10 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     private void buyProduct(Purchase purchase, PurchaseDetail purchaseDetail) {
         Pocket pocket = pocketService.findPocketById(purchaseDetail.getPocket().getId());
-        pocketService.topUp(pocket.getId(), purchaseDetail.getQuantityInGram());
         purchaseDetail.setProduct(pocket.getProduct());
         purchaseDetail.setPrice(pocket.getProduct().getProductPriceSell());
+        pocketService.topUp(pocket.getId(), purchaseDetail);
+//        pocket.setTotalAmount(pocket.getTotalAmount().add(purchaseDetail.getPrice()));
         purchaseDetail.setPurchase(purchase);
     }
 
@@ -79,10 +80,10 @@ public class PurchaseServiceImpl implements PurchaseService{
         Pocket pocket = pocketService.findPocketById(purchaseDetail.getPocket().getId());
         Double pocketQty = pocket.getPocketQty();
         if (pocketQty - purchaseQty >= 0) {
-            pocketService.sellOff(pocket.getId(), purchaseQty);
             purchaseDetail.setProduct(pocket.getProduct());
             purchaseDetail.setPrice(pocket.getProduct().getProductPriceBuy());
             purchaseDetail.setPurchase(purchase);
+            pocketService.sellOff(pocket.getId(), purchaseDetail);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You're reaching the minimum quantity to sell, please input the right amount");
         }
